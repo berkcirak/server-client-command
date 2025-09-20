@@ -23,8 +23,8 @@ public class ClientHandler implements Runnable{
         try {
             bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
-            printWriter.print("User ID: " + userId);
-            printWriter.print("Connection completed. Send command...");
+            printWriter.println("User ID: " + userId);
+            printWriter.println("Connection completed. Send command...");
             String command;
             while ((command = bufferedReader.readLine()) != null){
                 if (command.equals("exit")){
@@ -67,7 +67,14 @@ public class ClientHandler implements Runnable{
         if (newPath.startsWith("/") || newPath.contains(":")){
             newDirectory = new File(newPath);
         }else {
-            newDirectory = new File(currentDirectory, newPath);
+            File currentDir = new File(currentDirectory);
+            if (newPath.equals("..")){
+                newDirectory = currentDir.getParentFile();
+            } else if (newPath.equals(".")){
+                newDirectory = currentDir;
+            } else {
+                newDirectory = new File(currentDir, newPath);
+            }
         }
         if (newDirectory.exists() && newDirectory.isDirectory()){
             commandServer.updateUserDirectory(userId, newDirectory.getAbsolutePath());
