@@ -76,7 +76,7 @@ public class ClientHandler implements Runnable{
                 newDirectory = new File(currentDir, newPath);
             }
         }
-        if (newDirectory.exists() && newDirectory.isDirectory()){
+        if (newDirectory != null && newDirectory.exists() && newDirectory.isDirectory()){
             commandServer.updateUserDirectory(userId, newDirectory.getAbsolutePath());
             return newDirectory.getAbsolutePath();
         } else {
