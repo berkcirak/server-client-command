@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class CommandServer {
@@ -16,7 +17,7 @@ public class CommandServer {
     private Map<String, String> userDirectories;
 
     public CommandServer(){
-        this.userDirectories = new HashMap<>();
+        this.userDirectories = new ConcurrentHashMap<>();
     }
     public void start() throws IOException{
         serverSocket = new ServerSocket(PORT);
