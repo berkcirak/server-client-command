@@ -15,6 +15,7 @@ public class ClientHandlerTest {
         assertTrue(testDirectory.exists());
         assertTrue(testDirectory.isDirectory());
     }
+
     @Test
     void testPwdCommand(){
         CommandServer server = new CommandServer();

@@ -26,6 +26,7 @@ class CommandServerTest {
         assertTrue(new File(userDirectory1).exists());
         assertTrue(new File(userDirectory2).exists());
     }
+    
     @Test
     void testCreateNewUserId(){
         CommandServer server = new CommandServer();
