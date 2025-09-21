@@ -1,3 +1,5 @@
+package com.example;
+
 import org.example.CommandServer;
 import org.junit.jupiter.api.Test;
 

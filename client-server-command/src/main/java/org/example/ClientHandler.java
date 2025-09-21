@@ -2,6 +2,7 @@ package org.example;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 public class ClientHandler implements Runnable{
 
@@ -94,14 +95,28 @@ public class ClientHandler implements Runnable{
             }
             processBuilder.directory(new File(workingDirectory));
             Process process = processBuilder.start();
+
             BufferedReader outputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            StringBuilder result = new StringBuilder();
+            StringBuilder output = new StringBuilder();
             String line;
             while ((line = outputReader.readLine()) != null){
-                result.append(line).append("\n");
+                output.append(line).append("\n");
             }
-            process.waitFor();
-            return result.toString();
+            BufferedReader errorReader  = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            StringBuilder error = new StringBuilder();
+            while ((line  = errorReader.readLine()) != null){
+                error.append(line).append("\n");
+            }
+            boolean finished = process.waitFor(30, TimeUnit.SECONDS);
+            if (!finished){
+                process.destroyForcibly();
+                return "Error: Command timed out after 30 seconds";
+            }
+            String result = output.toString();
+            if (!error.toString().isEmpty()){
+                result += "ERROR: " + error.toString();
+            }
+            return result.isEmpty() ? "Command executed" : result.trim();
         } catch (Exception e){
             return "Error: "+ e.getMessage();
         }
