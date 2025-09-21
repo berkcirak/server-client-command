@@ -1,4 +1,4 @@
-package com.example;
+package org.example;
 
 import org.example.CommandServer;
 import org.junit.jupiter.api.Test;
