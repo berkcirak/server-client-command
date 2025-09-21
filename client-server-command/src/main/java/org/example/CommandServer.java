@@ -36,7 +36,11 @@ public class CommandServer {
 
     public String getUserDirectory(String userId){
         if (!userDirectories.containsKey(userId)){
-            String tempDirectory = System.getProperty("java.io.tmpdir")+ File.separator + "user_" + userId;
+            String tempDirectory = System.getProperty("java.io.tmpdir");
+            if (!tempDirectory.endsWith(File.separator)){
+                tempDirectory += File.separator;
+            }
+            tempDirectory += "user_" + userId;
             new File(tempDirectory).mkdirs();
             userDirectories.put(userId, tempDirectory);
             System.out.println("New directory path: "+ tempDirectory);
